@@ -140,7 +140,7 @@ CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
 CELERY_BEAT_SCHEDULE = {
     'currency_record_every_hour': {
         'task': 'create_record_task',
-        'schedule': crontab(hour='1'),
+        'schedule': crontab(minute=0, hour='*/1'),
         'args': [url]
     }
 }
