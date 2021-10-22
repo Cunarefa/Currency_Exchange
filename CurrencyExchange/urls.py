@@ -22,6 +22,6 @@ from application.auth import CustomAuthToken, RegisterView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('application.urls')),
-    path('api-token-auth/', CustomAuthToken.as_view()),
+    path('api/v1/login/', CustomAuthToken.as_view()),
     path('api/v1/register/', RegisterView.as_view()),
 ]
