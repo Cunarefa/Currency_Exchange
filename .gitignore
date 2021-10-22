@@ -8,6 +8,7 @@ __pycache__/
 *.pot
 db.sqlite3
 media
+.rdb*
 
 # Backup files #
 *.bak

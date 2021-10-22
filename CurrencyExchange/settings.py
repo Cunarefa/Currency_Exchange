@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'application.apps.ApplicationConfig',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -144,3 +145,5 @@ CELERY_BEAT_SCHEDULE = {
         'args': [url]
     }
 }
+
+AUTH_USER_MODEL = 'application.User'
