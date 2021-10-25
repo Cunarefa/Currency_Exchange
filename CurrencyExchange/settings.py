@@ -16,6 +16,8 @@ from pathlib import Path
 from celery.schedules import crontab
 from dotenv import load_dotenv
 
+from application.handlers.alphavantage_url_creation import URLCreateHandler
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,9 +30,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', default=0)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Application definition
 
@@ -41,9 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'application.apps.ApplicationConfig',
+
+    # third party:
     'rest_framework',
     'rest_framework.authtoken',
+
+    # applications:
+    'application.apps.ApplicationConfig',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +63,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'CurrencyExchange.urls'
+
+AUTH_USER_MODEL = 'application.User'
 
 TEMPLATES = [
     {
@@ -82,7 +90,7 @@ WSGI_APPLICATION = 'CurrencyExchange.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DB_ENGINE'),
+        'ENGINE': os.getenv('SQL_ENGINE'),
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
@@ -130,10 +138,12 @@ STATIC_URL = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-url = f'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=BTC&to_currency=USD&apikey=' \
-      f'{os.getenv("API_KEY")}'
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DOMAIN = f'https://www.alphavantage.co/query?'
+
+HANDLER = URLCreateHandler(DOMAIN)
+FULL_URL = HANDLER.get_full_url()
 
 CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
@@ -142,8 +152,8 @@ CELERY_BEAT_SCHEDULE = {
     'currency_record_every_hour': {
         'task': 'create_record_task',
         'schedule': crontab(minute=0, hour='*/1'),
-        'args': [url]
+        'args': [FULL_URL]
     }
 }
 
-AUTH_USER_MODEL = 'application.User'
+
