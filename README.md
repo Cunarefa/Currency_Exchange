@@ -1,4 +1,5 @@
 # CurrencyExchange
+This application helps to get currency exchange every hour from https://www.alphavantage.co
 
 ## Mac
 
@@ -58,19 +59,8 @@ pip install -r requirements.txt
 2. Run migrations
 
 ```
-docker-compose exec web python manage.py migrate --noinput
+python manage.py makemigrations
+python manage.py migrate
 ```
 
-3. If get mistake: 
-docker-compose exec web python manage.py migrate --noinput, Stop the container with command:
-   
-```
-docker-compose down -v
-```
 
-Build images again, run containers and run migrations again
-
-```
-docker-compose up -d --build
-docker-compose exec web python manage.py migrate --noinput
-```
