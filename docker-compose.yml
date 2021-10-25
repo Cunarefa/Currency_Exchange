@@ -2,7 +2,8 @@ version: '3.7'
 
 services:
   web:
-    build: ./CurrencyExchange
+    container_name: web-dev
+    build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./app/:/usr/src/CurrencyExchange/
@@ -13,6 +14,7 @@ services:
     depends_on:
       - db
   db:
+    container_name: postgres-db
     image: postgres:10.0
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -23,7 +25,10 @@ services:
     ports:
       - "5433:5433"
   redis:
+    container_name: redis
     image: redis
     ports:
       - "6379:6379"
+volumes:
+  postgres_data:
 
