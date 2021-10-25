@@ -17,11 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 
-from application.auth import CustomAuthToken, RegisterView
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('application.urls')),
-    path('api/v1/login/', CustomAuthToken.as_view()),
-    path('api/v1/register/', RegisterView.as_view()),
+    path('', include('application.urls.urls')),
+    path('api/v1/auth/', include('application.urls.auth_urls')),
 ]
