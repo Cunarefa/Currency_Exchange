@@ -52,15 +52,48 @@ pip install -r requirements.txt
 
 ## Dev DB Setup
 
-1. Start the local database + redis server using Docker:
+1. Create DB via terminal:
 
-`docker-compose up`
+ - ## Ubuntu
+
+locally
+```
+sudo postgres
+psql
+CREATE DATABASE currency_ex
+```
+
+with docker
+```
+docker-compose up
+```
+
+ - ## Mac
+
+locally
+```
+brew install postgresql
+psql
+CREATE DATABASE currency_ex
+```
+
+with docker
+```
+docker-compose up
+```
 
 2. Run migrations
 
+locally
 ```
-python manage.py makemigrations
 python manage.py migrate
 ```
+
+with docker
+```
+docker-compose run web /usr/local/bin/python manage.py migrate
+```
+
+
 
 
