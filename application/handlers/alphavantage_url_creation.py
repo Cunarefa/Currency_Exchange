@@ -20,9 +20,9 @@ class URLCreateHandler():
         return url
 
     def get_args(self):
-        self.args_dict['from_currency'] = input('Type from_currency code: ').upper() or DEFAULT_VALUES['from_currency']
-        self.args_dict['to_currency'] = input('Type to_currency code: ').upper() or DEFAULT_VALUES['to_currency']
-        self.args_dict['apikey'] = input('Type your apikey: ') or os.getenv('API_KEY')
+        self.args_dict['from_currency'] = DEFAULT_VALUES['from_currency']
+        self.args_dict['to_currency'] = DEFAULT_VALUES['to_currency']
+        self.args_dict['apikey'] = os.getenv('API_KEY')
         return self.args_dict
 
     def create_url(self, args_dict):

@@ -3,10 +3,11 @@ version: '3.7'
 services:
   web:
     container_name: web-dev
+    restart: always
     build: .
     command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./app/:/usr/src/CurrencyExchange/
+#    volumes:
+#      - ./app/:/usr/src/CurrencyExchange/
     ports:
       - 8000:8000
     env_file:
@@ -15,6 +16,7 @@ services:
       - db
   db:
     container_name: postgres-db
+    restart: always
     image: postgres:10.0
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -22,10 +24,11 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=Actimel13
       - POSTGRES_DB=currency_ex
-    ports:
-      - "5433:5433"
+#    ports:
+#      - "5432:5432"
   redis:
     container_name: redis
+    restart: always
     image: redis
     ports:
       - "6379:6379"

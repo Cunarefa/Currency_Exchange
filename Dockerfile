@@ -17,3 +17,5 @@ COPY ./requirements.txt app
 WORKDIR CurrencyExchange
 
 RUN pip install -r requirements.txt
+
+COPY . .
