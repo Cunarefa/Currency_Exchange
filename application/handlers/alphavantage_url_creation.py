@@ -6,7 +6,7 @@ from application.handlers import DEFAULT_VALUES
 load_dotenv()
 
 
-class URLCreateHandler():
+class URLCreateHandler:
     """ Class receive arguments for requesting URL from user. It also process and create requesting URL """
 
     def __init__(self, domain):
