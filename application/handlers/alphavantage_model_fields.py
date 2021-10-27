@@ -1,7 +1,7 @@
 from application.handlers import url_handler
 
 
-class ModelFieldsHandler():
+class ModelFieldsHandler:
     def __init__(self, url):
         self.url = url
 

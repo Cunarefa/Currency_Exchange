@@ -15,8 +15,8 @@ def get_exchange_rate_task(url):
         model_fields = ModelFieldsHandler(url).fill_model_fields()
         serializer = CurrencySerializer(data=model_fields)
         if serializer.is_valid():
-            s = Currency(**model_fields)
-            s.save()
+            record = Currency(**model_fields)
+            record.save()
             return {'exchange_record': json.dumps(model_fields), 'status': status.HTTP_201_CREATED}
         else:
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
