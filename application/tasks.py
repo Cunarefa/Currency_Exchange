@@ -1,24 +1,14 @@
-import json
-
 from celery import shared_task
-from rest_framework import status
-from rest_framework.response import Response
 
 from application.handlers.alphavantage_model_fields import ModelFieldsHandler
-from application.models import Currency
-from application.serializers import CurrencySerializer
+from application.handlers.alphavantage_url_creation import URLCreateHandler
 
 
 @shared_task(name="get_exchange_rate_task")
-def get_exchange_rate_task(url):
+def get_exchange_rate_task(domain):
     try:
-        model_fields = ModelFieldsHandler(url).fill_model_fields()
-        serializer = CurrencySerializer(data=model_fields)
-        if serializer.is_valid():
-            record = Currency(**model_fields)
-            record.save()
-            return {'exchange_record': json.dumps(model_fields), 'status': status.HTTP_201_CREATED}
-        else:
-            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+        full_url = URLCreateHandler(domain).get_full_url()
+        result = ModelFieldsHandler(full_url).fill_model_fields()
+        return result
     except Exception as err:
-        return {'message': err}
+        return err.args[0]
