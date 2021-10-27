@@ -148,7 +148,7 @@ CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
 CELERY_BEAT_SCHEDULE = {
     'currency_record_every_hour': {
         'task': 'get_exchange_rate_task',
-        'schedule': 5.0,
+        'schedule': 15.0,
         'args': [DOMAIN]
     }
 }
