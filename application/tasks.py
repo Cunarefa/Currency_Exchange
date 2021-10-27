@@ -9,8 +9,8 @@ from application.models import Currency
 from application.serializers import CurrencySerializer
 
 
-@shared_task(name="create_record_task")
-def create_record_task(url):
+@shared_task(name="get_exchange_rate_task")
+def get_exchange_rate_task(url):
     try:
         model_fields = ModelFieldsHandler(url).fill_model_fields()
         serializer = CurrencySerializer(data=model_fields)

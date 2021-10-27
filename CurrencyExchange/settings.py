@@ -143,16 +143,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DOMAIN = f'https://www.alphavantage.co/query?'
 
 HANDLER = URLCreateHandler(DOMAIN)
-FULL_URL = HANDLER.get_full_url()
 
 CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
 
 CELERY_BEAT_SCHEDULE = {
     'currency_record_every_hour': {
-        'task': 'create_record_task',
+        'task': 'get_exchange_rate_task',
         'schedule': crontab(minute=0, hour='*/1'),
-        'args': [FULL_URL]
+        'args': [HANDLER.get_full_url()]
     }
 }
 
