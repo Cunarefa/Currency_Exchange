@@ -26,13 +26,5 @@ class URLCreateHandler:
         return self.args_dict
 
     def create_url(self, args_dict):
-        try:
-            request = requests.get(self.__DOMAIN, params=args_dict)
-            return request.url
-        except ValueError as err:
-            return err
-        except Exception as err:
-            return err
-
-
-
+        request = requests.get(self.__DOMAIN, params=args_dict)
+        return request.url
