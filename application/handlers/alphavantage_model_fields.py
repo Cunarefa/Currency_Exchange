@@ -28,9 +28,7 @@ class ModelFieldsHandler:
             if serializer.is_valid():
                 record = Currency(**model_fields)
                 record.save()
-                return {'exchange_record': json.dumps(model_fields), 'status': status.HTTP_201_CREATED}
-            else:
-                return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+                return {'exchange_record': serializer.validated_data, 'status': status.HTTP_201_CREATED}
         except KeyError:
             return 'Wrong currency codes or your API Key is invalid or has expired.'
         except AttributeError:

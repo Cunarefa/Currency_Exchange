@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-from __future__ import absolute_import
 import os
 from pathlib import Path
 
@@ -148,7 +147,8 @@ CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
 CELERY_BEAT_SCHEDULE = {
     'currency_record_every_hour': {
         'task': 'get_exchange_rate_task',
-        'schedule': 15.0,
+        # 'schedule': crontab(minute=0, hour='*/1'),
+        'schedule': 5.0,
         'args': [DOMAIN]
     }
 }
