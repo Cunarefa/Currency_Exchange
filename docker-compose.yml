@@ -13,7 +13,7 @@ services:
     env_file:
       - ./.env
     depends_on:
-      - db
+      - postgres
   postgres:
     container_name: postgres-db
     restart: always
@@ -37,6 +37,9 @@ services:
     container_name: worker
     restart: always
     command: celery -A CurrencyExchange.celery worker --loglevel=info
+    environment:
+      CELERY_BROKER_URL: "redis://redis:6379/0"
+      CELERY_RESULT_BACKEND: "redis://redis:6379/0"
     depends_on:
       - redis
       - postgres
